@@ -1,0 +1,9 @@
+name: UHCCenterBySc0rpi0
+version: 1.0
+author: Sc0rpi0
+main: fr.sc0rpi0.uhccenter.Main
+
+commands:
+  uhc:
+    description: This is the main command
+    permission: host.use
