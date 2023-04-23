@@ -15,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import fr.sc0rpi0.uhccenter.tools.HostTool;
+import fr.sc0rpi0.uhccenter.tools.MainScoreboard;
 import fr.sc0rpi0.uhccenter.tools.PlayerInGame;
 import fr.sc0rpi0.uhccenter.tools.Spawn;
 import fr.sc0rpi0.uhccenter.tools.Timer;
@@ -28,6 +29,7 @@ public class MainListener implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
+		player.setScoreboard(MainScoreboard.getScoreboard());
 		
 		if (!PlayerInGame.contains(player)) {
 			player.setGameMode(GameMode.ADVENTURE);
@@ -81,7 +83,7 @@ public class MainListener implements Listener {
 	public void onPlayerDamage(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) {
 			if (Timer.isNoDamage()) {
-				
+				event.setCancelled(true);
 			}
 		}
 	}

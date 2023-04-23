@@ -100,11 +100,11 @@ public class HostTool {
 		inv.setItem(9+5, MakeTool.makeItem(Material.STAINED_CLAY, ColorTool.getSimplePositiveColor() + "+10", 1, DyeColor.LIME.getData()));
 		inv.setItem(9+6, MakeTool.makeItem(Material.STAINED_CLAY, ColorTool.getDoublePositiveColor() + "+100", 1, DyeColor.GREEN.getData()));
 		
-		inv.setItem(9*2+2, MakeTool.makeItem(Material.STAINED_CLAY, ColorTool.getDoubleNegativeColor() + "-10", 1, DyeColor.RED.getData()));
+		inv.setItem(9*2+2, MakeTool.makeItem(Material.STAINED_CLAY, ColorTool.getDoubleNegativeColor() + "-5", 1, DyeColor.RED.getData()));
 		inv.setItem(9*2+3, MakeTool.makeItem(Material.STAINED_CLAY, ColorTool.getSimpleNegativeColor() + "-1", 1, DyeColor.MAGENTA.getData()));
-		inv.setItem(9*2+4, MakeTool.makeItem(Material.FEATHER, ColorTool.getMainColorAqua() + "Speed : " + Border.getSpeed() + " block/min", 1, 0));
+		inv.setItem(9*2+4, MakeTool.makeItem(Material.FEATHER, ColorTool.getMainColorAqua() + "Speed : " + Border.getSpeed() + " blocks/min", 1, 0));
 		inv.setItem(9*2+5, MakeTool.makeItem(Material.STAINED_CLAY, ColorTool.getSimplePositiveColor() + "+1", 1, DyeColor.LIME.getData()));
-		inv.setItem(9*2+6, MakeTool.makeItem(Material.STAINED_CLAY, ColorTool.getDoublePositiveColor() + "+10", 1, DyeColor.GREEN.getData()));
+		inv.setItem(9*2+6, MakeTool.makeItem(Material.STAINED_CLAY, ColorTool.getDoublePositiveColor() + "+5", 1, DyeColor.GREEN.getData()));
 		
 		inv.setItem(9*3+2, MakeTool.makeItem(Material.STAINED_CLAY, ColorTool.getDoubleNegativeColor() + "-10", 1, DyeColor.RED.getData()));
 		inv.setItem(9*3+3, MakeTool.makeItem(Material.STAINED_CLAY, ColorTool.getSimpleNegativeColor() + "-1", 1, DyeColor.MAGENTA.getData()));
@@ -158,11 +158,8 @@ public class HostTool {
 						break;
 					
 					case "§4-10":
-						System.out.println(Timer.getPvpTimer() + " " + Timer.getBorderTimer());
 						if ((int)(slot / 9) == 1) {
-							System.out.println(Timer.getPvpTimer());
 							Timer.addPvpTimer(-10);
-							System.out.println(Timer.getPvpTimer());
 						} else {
 							Timer.addBorderTimer(-10);
 						}
@@ -197,6 +194,9 @@ public class HostTool {
 				}
 				inv.setItem(9+4, MakeTool.makeItem(Material.SKULL_ITEM, ColorTool.getMainColorAqua() + "PVP : " + Timer.getPvpTimer() + " min", 1, 0));
 				inv.setItem(9*2+4, MakeTool.makeItem(Material.FENCE, ColorTool.getMainColorAqua() + "Border : " + Timer.getBorderTimer() + " min", 1, 0));
+				for (Player p : PlayerInGame.getPlayerList()) {
+					p.setScoreboard(MainScoreboard.getScoreboard());
+				}
 				break;
 				
 			case borderFenceName:
@@ -205,23 +205,18 @@ public class HostTool {
 						player.openInventory(getMainInventory());
 						break;
 					
+					case "§4-5":
 					case "§4-10":
 					case "§4-100":
 						switch (slot / 9) {
 							case 1:
 								Border.addSize(-100);
-								if (Border.getSize() < Border.getMinSize()) {
-									Border.addSize(100);
-								}
 								break;
 							case 2:
-								Border.addSpeed(-10);
+								Border.addSpeed(-5);
 								break;
 							case 3:
-								Border.addMinSize(-100);
-								if (Border.getSize() < Border.getMinSize()) {
-									Border.addMinSize(100);
-								}
+								Border.addMinSize(-10);
 								break;
 						}
 						break;
@@ -231,18 +226,12 @@ public class HostTool {
 						switch (slot / 9) {
 							case 1:
 								Border.addSize(-10);
-								if (Border.getSize() < Border.getMinSize()) {
-									Border.addSize(10);
-								}
 								break;
 							case 2:
 								Border.addSpeed(-1);
 								break;
 							case 3:
-								Border.addMinSize(-10);
-								if (Border.getSize() < Border.getMinSize()) {
-									Border.addMinSize(10);
-								}
+								Border.addMinSize(-1);
 								break;
 						}
 						break;
@@ -252,39 +241,28 @@ public class HostTool {
 						switch (slot / 9) {
 							case 1:
 								Border.addSize(10);
-								if (Border.getSize() < Border.getMinSize()) {
-									Border.addSize(-10);
-								}
 								break;
 							case 2:
 								Border.addSpeed(1);
 								break;
 							case 3:
-								Border.addMinSize(10);
-								if (Border.getSize() < Border.getMinSize()) {
-									Border.addMinSize(-10);
-								}
+								Border.addMinSize(1);
 								break;
 						}
 						break;
-						
+					
+					case "§2+5":
 					case "§2+10":
 					case "§2+100":
 						switch (slot / 9) {
 							case 1:
 								Border.addSize(100);
-								if (Border.getSize() < Border.getMinSize()) {
-									Border.addSize(-100);
-								}
 								break;
 							case 2:
-								Border.addSpeed(10);
+								Border.addSpeed(5);
 								break;
 							case 3:
-								Border.addMinSize(100);
-								if (Border.getSize() < Border.getMinSize()) {
-									Border.addMinSize(-100);
-								}
+								Border.addMinSize(10);
 								break;
 						}
 						break;
@@ -293,7 +271,7 @@ public class HostTool {
 						break;
 				}
 				inv.setItem(9+4, MakeTool.makeItem(Material.FENCE, ColorTool.getMainColorAqua() + "Size : " + Border.getSize() + " x " + Border.getSize(), 1, 0));
-				inv.setItem(9*2+4, MakeTool.makeItem(Material.FEATHER, ColorTool.getMainColorAqua() + "Speed : " + Border.getSpeed() + " block/min", 1, 0));
+				inv.setItem(9*2+4, MakeTool.makeItem(Material.FEATHER, ColorTool.getMainColorAqua() + "Speed : " + Border.getSpeed() + " blocks/min", 1, 0));
 				inv.setItem(9*3+4, MakeTool.makeItem(Material.FENCE, ColorTool.getMainColorAqua() + "Min Size : " + Border.getMinSize() + " x " + Border.getMinSize(), 1, 0));
 				break;
 				

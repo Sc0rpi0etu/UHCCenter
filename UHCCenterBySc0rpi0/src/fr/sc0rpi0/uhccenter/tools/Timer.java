@@ -1,6 +1,8 @@
 package fr.sc0rpi0.uhccenter.tools;
 
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.permissions.BroadcastPermissions;
 
 public class Timer extends BukkitRunnable {
 	private static int pvpTimer = 20;
@@ -17,11 +19,17 @@ public class Timer extends BukkitRunnable {
 	}
 	
 	public static void addPvpTimer(int value) {
-		pvpTimer += value;
+		if (value + pvpTimer > 0 && value + pvpTimer < borderTimer) {
+			pvpTimer += value;
+			MainScoreboard.getScoreboard().getTeam("PVPTimer").setSuffix(pvpTimer + " min");
+		}
 	}
 	
 	public static void addBorderTimer(int value) {
-		borderTimer += value;
+		if (pvpTimer < borderTimer + value) {
+			borderTimer += value;
+			MainScoreboard.getScoreboard().getTeam("BorderTimer").setSuffix(borderTimer + " min");
+		}
 	}
 
 	public static int getTimer() {
@@ -29,18 +37,29 @@ public class Timer extends BukkitRunnable {
 	}
 	
 	public static boolean isPVP() {
-		return getTimer() >= getPvpTimer();
+		return getTimer() >= getPvpTimer() * 60;
 	}
 
 	@Override
 	public void run() {
 		timer++;
 		
-		if (timer < getBorderTimer() && Border.getSize() > Border.getMinSize()) {
-			Border.getWorldBorder().setSize(Border.getWorldBorder().getSize() - Border.getSpeed() / 60);
+		MainScoreboard.getScoreboard().getTeam("Timer").setSuffix((timer / 60) + " min " + (timer % 60) + " s");
+		
+		if (timer == getPvpTimer() * 60) {
+			Bukkit.broadcastMessage(ColorTool.getMainColorAqua() + "PVP is on !");
+		}
+		
+		if (timer == getBorderTimer() * 60) {
+			Bukkit.broadcastMessage(ColorTool.getMainColorAqua() + "Border is on !");
+		}
+		
+		if (timer > getBorderTimer() * 60 && Border.getSize() > Border.getMinSize()) {
+			Border.getWorldBorder().setSize(Border.getWorldBorder().getSize() - (double) Border.getSpeed() / 60);
 			if (Border.getSize() < Border.getMinSize()) {
 				Border.getWorldBorder().setSize(Border.getMinSize());
 			}
+			MainScoreboard.getScoreboard().getTeam("BorderSizeGame").setSuffix((int) Border.getWorldBorder().getSize() + " x " + (int) Border.getWorldBorder().getSize());
 		}
 	}
 

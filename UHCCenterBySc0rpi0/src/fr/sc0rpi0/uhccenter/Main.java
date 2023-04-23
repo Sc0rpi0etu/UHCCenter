@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.sc0rpi0.uhccenter.commands.CommandController;
 import fr.sc0rpi0.uhccenter.tools.Border;
+import fr.sc0rpi0.uhccenter.tools.MainScoreboard;
 
 public class Main extends JavaPlugin {
 	@Override
@@ -13,8 +14,12 @@ public class Main extends JavaPlugin {
 		System.out.println("The author is Sc0rpi0");
 		System.out.println("---------------------------------------------");
 		
+		// Configuration
 		launchCommands();
 		Border.getWorldBorder().setSize(200);
+		MainScoreboard.createScoreboardLobby();
+		
+		// Listener
 		getServer().getPluginManager().registerEvents(new MainListener(), this);
 	}
 	
